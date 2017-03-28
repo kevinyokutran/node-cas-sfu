@@ -35,9 +35,9 @@ Several options are provided as defaults in the module but these can be overridd
             appLogoutPath: '/wa/applogout'
     };
 
-You can override any of these by providing your own values in the options object you pass to new CAS() or CAS#getMiddleware()
+You can override the above arguments by providing your own values in the options object you pass to new CAS() or CAS#getMiddleware()
 
-Once a user has logged in, you will have an object containing information about the user (essentially, a JSON representation of the XML document returned by CAS). This object will be in either `req.authenticatedUser` or `req.session.authenticatedUser` (where `authenticatedUser` is whatever name you provided to the `userObject` option when you initialized the CAS client; `authenticatedUser` is the default). For example, if you initialized CAS with `allow: '!list-1,!list-2'` and log in as user kipling, who is a member of "list-2", the `authenticatedUser` object will be:
+You will have an object containing information about the user (essentially, a JSON representation of the XML document returned by CAS) once they are logged in. The object will be in either `req.authenticatedUser` or `req.session.authenticatedUser` (where `authenticatedUser` is whatever name you provided to the `userObject` option when you initialized the CAS client; `authenticatedUser` is the default). For example, if you initialized CAS with `allow: '!list-1,!list-2'` and log in as user kipling, who is a member of "list-2", the `authenticatedUser` object will be:
 
     {
         user: 'kipling',
@@ -96,7 +96,7 @@ User logged in:
     127.0.0.1 - kipling [Thu, 19 Apr 2012 01:06:59 GMT] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1096.1 Safari/536.6"
 
 ## Using non-SFU (aka Apache) accounts
-SFU's implementation of CAS allows users to authenticate with made-up, non-SFU accounts. These are often referred to as "Apache accounts" as they are most commonly used in Apache .htpasswd files via the [mod_auth_cas](http://www.sfu.ca/itservices/publishing/publish_howto/enhanced_web_publishing/cas/apache_module.html) Apache module. node-cas-sfu also supports Apache accounts; you can use them by setting `allow=apache` and including an `apacheUsers` object containing username & password hash pairs:
+SFU's implementation of CAS allows users to authenticate with made-up, non-SFU accounts. These accounts are referred to as "Apache accounts" because they are commonly used in Apache .htpasswd files via the [mod_auth_cas](http://www.sfu.ca/itservices/publishing/publish_howto/enhanced_web_publishing/cas/apache_module.html) Apache module. node-cas-sfu also supports Apache accounts; you can use them by setting `allow=apache` and including an `apacheUsers` object containing username & password hash pairs:
 
     var CAS = require('cas-sfu');
     var cas = new CAS({
@@ -109,7 +109,7 @@ SFU's implementation of CAS allows users to authenticate with made-up, non-SFU a
 Passwords can be any of UNIX crypt, SHA1, Apache MD5 or even plain text (but really, don't do plain text). node-cas-sfu uses the [pass](https://github.com/andris9/pass) module to validate hashes.
 
 # Tests
-Run `node test.js` or `npm test` to run the tests. The test script will prompt you for a valid SFU username & password (not recorded or stored anywhere) and will use those credentials to log into CAS via the REST interface, obtain a Service Ticket and attempt to validate that ticket. It will also attempt the same using a made-up "Apache" account (myfakeuser:pencil69).
+Run `node test.js` or `npm test` to run the tests. The test script will prompt you for a valid SFU username & password (not recorded or stored anywhere) and will use those credentials to log into CAS via the REST interface, obtain a Service Ticket and attempt to validate it. The script will also attempt the same process using a made-up "Apache" account (myfakeuser:pencil69).
 
 # License
 
